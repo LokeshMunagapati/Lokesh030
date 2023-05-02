@@ -1,0 +1,283 @@
+SQL> CREATE TABLE Matches (
+  2   match_id INT PRIMARY KEY,
+  3  day DATE,
+  4  venue VARCHAR(255),
+  5  winner int,
+  6  loser int,
+  7  score int
+  8  );
+CREATE TABLE Matches (
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> desc Matches;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ MATCH_ID                                  NOT NULL NUMBER(38)
+ DAY                                                DATE
+ VENUE                                              VARCHAR2(20)
+ WINNER                                             NUMBER(38)
+ LOSER                                              NUMBER(38)
+ SCORE                                              NUMBER(38)
+
+SQL> create table Teams(
+  2  team_id int primary key, name varchar(255), captain int, coach int, founded_year int);
+
+Table created.
+
+SQL> desc Teams;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ TEAM_ID                                   NOT NULL NUMBER(38)
+ NAME                                               VARCHAR2(255)
+ CAPTAIN                                            NUMBER(38)
+ COACH                                              NUMBER(38)
+ FOUNDED_YEAR                                       NUMBER(38)
+
+SQL> create table Participations(
+  2  participation_id int primary key, team_id int, match_id int, score int, no_of_winnings int,
+  3  foreign key (team_id) references Teams(team_id),
+  4  foreign key (match_id) references Matches(match_id)
+  5  );
+
+Table created.
+
+SQL> desc participations;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PARTICIPATION_ID                          NOT NULL NUMBER(38)
+ TEAM_ID                                            NUMBER(38)
+ MATCH_ID                                           NUMBER(38)
+ SCORE                                              NUMBER(38)
+ NO_OF_WINNINGS                                     NUMBER(38)
+
+SQL> create table Players(
+  2  player_id int primary key, name varchar(255), country varchar(255), age int, role varchar(255)
+  3  );
+
+Table created.
+
+SQL> desc Players;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PLAYER_ID                                 NOT NULL NUMBER(38)
+ NAME                                               VARCHAR2(255)
+ COUNTRY                                            VARCHAR2(255)
+ AGE                                                NUMBER(38)
+ ROLE                                               VARCHAR2(255)
+
+SQL> create table Coaches(
+  2  coach_id int primary key, name varchar(255), country varchar(255), age int, experience varchar(255));
+
+Table created.
+
+SQL> INSERT INTO Matches (match_id, date, venue, winner, loser, score)
+  2  VALUES (1, '2023-04-30', 'Mumbai', 1, 2, 180);
+INSERT INTO Matches (match_id, date, venue, winner, loser, score)
+                               *
+ERROR at line 1:
+ORA-01747: invalid user.table.column, table.column, or column specification 
+
+
+SQL> INSERT INTO Matches (match_id, day, venue, winner, loser, score)
+  2  VALUES (1, '2023-04-30', 'chennai', 1, 2, 180);
+VALUES (1, '2023-04-30', 'chennai', 1, 2, 180)
+           *
+ERROR at line 2:
+ORA-01861: literal does not match format string 
+
+
+SQL> INSERT INTO Matches (match_id, day, venue, winner, loser, score)
+  2  VALUES (1, '03-April-2023', 'Mumbai', 1, 2, 180);
+
+1 row created.
+
+SQL> INSERT INTO Teams (team_id, name, captain, coach, founded_year)VALUES (1, 'Mumbai Indians', 1, 1, 2008);
+
+1 row created.
+
+SQL> INSERT INTO Participations (participation_id, team_id, match_id, score, no_of_winnings)
+  2  VALUES (1, 1, 1, 180, 4);
+
+1 row created.
+
+SQL> INSERT INTO Players (player_id, name, country, age, role)
+  2  VALUES (1, 'Rohit Sharma', 'India', 34, 'Batsman');
+
+1 row created.
+
+SQL> INSERT INTO Coaches (coach_id, name, country, age, experience)
+  2  VALUES (1, 'Mahela Jayawardene', 'Sri Lanka', 44, '10 years');
+
+1 row created.
+
+SQL> select * from Matches;
+
+  MATCH_ID DAY       VENUE                    WINNER      LOSER      SCORE      
+---------- --------- -------------------- ---------- ---------- ----------      
+         1 03-APR-23 Mumbai                        1          2        180      
+
+SQL> select * from Teams;
+
+   TEAM_ID                                                                      
+----------                                                                      
+NAME                                                                            
+--------------------------------------------------------------------------------
+   CAPTAIN      COACH FOUNDED_YEAR                                              
+---------- ---------- ------------                                              
+         1                                                                      
+Mumbai Indians                                                                  
+         1          1         2008                                              
+                                                                                
+
+SQL> select * from participation;
+select * from participation
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> select * from participations;
+
+PARTICIPATION_ID    TEAM_ID   MATCH_ID      SCORE NO_OF_WINNINGS                
+---------------- ---------- ---------- ---------- --------------                
+               1          1          1        180              4                
+
+SQL> select * from players;
+
+ PLAYER_ID                                                                      
+----------                                                                      
+NAME                                                                            
+--------------------------------------------------------------------------------
+COUNTRY                                                                         
+--------------------------------------------------------------------------------
+       AGE                                                                      
+----------                                                                      
+ROLE                                                                            
+--------------------------------------------------------------------------------
+         1                                                                      
+Rohit Sharma                                                                    
+India                                                                           
+
+ PLAYER_ID                                                                      
+----------                                                                      
+NAME                                                                            
+--------------------------------------------------------------------------------
+COUNTRY                                                                         
+--------------------------------------------------------------------------------
+       AGE                                                                      
+----------                                                                      
+ROLE                                                                            
+--------------------------------------------------------------------------------
+        34                                                                      
+Batsman                                                                         
+                                                                                
+
+SQL> select * from Coaches;
+
+  COACH_ID                                                                      
+----------                                                                      
+NAME                                                                            
+--------------------------------------------------------------------------------
+COUNTRY                                                                         
+--------------------------------------------------------------------------------
+       AGE                                                                      
+----------                                                                      
+EXPERIENCE                                                                      
+--------------------------------------------------------------------------------
+         1                                                                      
+Mahela Jayawardene                                                              
+Sri Lanka                                                                       
+
+  COACH_ID                                                                      
+----------                                                                      
+NAME                                                                            
+--------------------------------------------------------------------------------
+COUNTRY                                                                         
+--------------------------------------------------------------------------------
+       AGE                                                                      
+----------                                                                      
+EXPERIENCE                                                                      
+--------------------------------------------------------------------------------
+        44                                                                      
+10 years                                                                        
+                                                                                
+
+SQL> select * from players;
+
+ PLAYER_ID                                                                      
+----------                                                                      
+NAME                                                                            
+--------------------------------------------------------------------------------
+COUNTRY                                                                         
+--------------------------------------------------------------------------------
+       AGE                                                                      
+----------                                                                      
+ROLE                                                                            
+--------------------------------------------------------------------------------
+         1                                                                      
+Rohit Sharma                                                                    
+India                                                                           
+
+ PLAYER_ID                                                                      
+----------                                                                      
+NAME                                                                            
+--------------------------------------------------------------------------------
+COUNTRY                                                                         
+--------------------------------------------------------------------------------
+       AGE                                                                      
+----------                                                                      
+ROLE                                                                            
+--------------------------------------------------------------------------------
+        34                                                                      
+Batsman                                                                         
+                                                                                
+
+SQL> CREATE TABLE Cricketers (
+  2  player_id INT PRIMARY KEY,
+  3  name VARCHAR(255),
+  4  country VARCHAR(255),
+  5   age INT,
+  6   role VARCHAR(255)
+  7  );
+
+Table created.
+
+SQL> INSERT INTO Cricketers (player_id, name, country, age, role)
+  2  VALUES (1, 'Rohit Sharma', 'India', 34, 'Batsman');
+
+1 row created.
+
+SQL> select * from Cricketers;
+
+ PLAYER_ID                                                                      
+----------                                                                      
+NAME                                                                            
+--------------------------------------------------------------------------------
+COUNTRY                                                                         
+--------------------------------------------------------------------------------
+       AGE                                                                      
+----------                                                                      
+ROLE                                                                            
+--------------------------------------------------------------------------------
+         1                                                                      
+Rohit Sharma                                                                    
+India                                                                           
+
+ PLAYER_ID                                                                      
+----------                                                                      
+NAME                                                                            
+--------------------------------------------------------------------------------
+COUNTRY                                                                         
+--------------------------------------------------------------------------------
+       AGE                                                                      
+----------                                                                      
+ROLE                                                                            
+--------------------------------------------------------------------------------
+        34                                                                      
+Batsman                                                                         
+                                                                                
+
+SQL> spool off;

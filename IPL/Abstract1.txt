@@ -1,0 +1,7 @@
+The Matches entity stores information about each match played, including the date, venue, winner, loser, and score. The Teams entity stores information about each team, including the team name, captain, coach, and founded year. 
+
+The Participations entity acts as a mediator between Matches and Teams, storing information about each team's participation in a match, such as the score and number of winnings. It also allows for a many-to-many relationship between Teams and Players, as a player can play for many teams, and a team can have many players. 
+
+The Players entity stores information about each player, including their name, country, age, and role. The Coaches entity stores information about each coach, including their name, country, age, and experience. 
+
+Overall, the database model allows for efficient storage and retrieval of IPL-related data and can be used for various purposes, such as performance analysis, team and player statistics, and historical record-keeping.
